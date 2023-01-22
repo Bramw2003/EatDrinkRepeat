@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import io.hammerhead.sdk.v0.datatype.view.SdkView
@@ -16,7 +17,17 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
     private val ReminderIntervalSeconds = ReminderInterval * 60;
 
     override fun createView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
-        return layoutInflater.inflate(R.layout.time_to_drink, parent, false)
+        val view = layoutInflater.inflate(R.layout.time_to_drink, parent, false)
+        view.findViewById<RelativeLayout>(R.id.timeToDrinkLayout)
+            .setOnLongClickListener { onLayoutLongClick() }
+        return view
+    }
+
+    private fun onLayoutLongClick(): Boolean {
+        // Ugly fix but will reset the timer on the next call to "onUpdate"
+        // Requires a little less calculation then using the view and such
+        LastDrinkTime += ReminderIntervalSeconds * 1000
+        return true
     }
 
     override fun onUpdate(view: View, value: Double, formattedValue: String?) {
@@ -34,7 +45,7 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
             LastDrinkTime = (value - 1).toInt()
             mDisplayToast(
                 Toast.makeText(context, "Don't forget to drink!", Toast.LENGTH_LONG),
-                10000
+                15000
             )
         }
     }
