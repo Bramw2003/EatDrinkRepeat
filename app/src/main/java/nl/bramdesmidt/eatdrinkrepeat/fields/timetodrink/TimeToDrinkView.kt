@@ -1,17 +1,20 @@
 package nl.bramdesmidt.eatdrinkrepeat.fields.timetodrink
 
 import android.content.Context
-import android.util.Log
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import io.hammerhead.sdk.v0.SdkContext
 import io.hammerhead.sdk.v0.datatype.view.SdkView
 import nl.bramdesmidt.eatdrinkrepeat.R
+import nl.bramdesmidt.eatdrinkrepeat.ki2.hooks.AudioAlertHook
 
-class TimeToDrinkView(context: Context) : SdkView(context) {
+class TimeToDrinkView(context: SdkContext) : SdkView(context) {
     private var LastDrinkTime = 1;
     private val ReminderInterval = 15 // Interval in minutes TODO: Make this a setting in the main app
     private val ReminderIntervalSeconds = ReminderInterval * 60;
@@ -30,6 +33,7 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
         return true
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onUpdate(view: View, value: Double, formattedValue: String?) {
         val editText = view.findViewById<TextView>(R.id.text);
         val diff = value - LastDrinkTime
@@ -42,6 +46,7 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
         )
 
         if (diff > ReminderIntervalSeconds * 1000) {
+            AudioAlertHook.triggerLowBatteryAudioAlert(context as SdkContext)
             LastDrinkTime = (value - 1).toInt()
             mDisplayToast(
                 Toast.makeText(context, "Don't forget to drink!", Toast.LENGTH_LONG),
