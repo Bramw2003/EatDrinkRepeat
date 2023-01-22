@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Eat Drink Repeat</string>
+    <string name="button">Button1</string>
+    <string name="TimeToDrink">00:00:00</string>
+</resources>
