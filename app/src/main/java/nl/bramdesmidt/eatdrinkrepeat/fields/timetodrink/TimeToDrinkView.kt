@@ -13,7 +13,7 @@ import nl.bramdesmidt.eatdrinkrepeat.R
 
 class TimeToDrinkView(context: Context) : SdkView(context) {
     private var LastDrinkTime = 1;
-    private val ReminderInterval = 15 // Interval in minutes
+    private val ReminderInterval = 15 // Interval in minutes TODO: Make this a setting in the main app
     private val ReminderIntervalSeconds = ReminderInterval * 60;
 
     override fun createView(layoutInflater: LayoutInflater, parent: ViewGroup): View {
@@ -33,15 +33,15 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
     override fun onUpdate(view: View, value: Double, formattedValue: String?) {
         val editText = view.findViewById<TextView>(R.id.text);
         val diff = value - LastDrinkTime
-        val diffSeconds = ReminderIntervalSeconds - (diff / 1000)
+        val secondsTillInterval = ReminderIntervalSeconds - (diff / 1000)
 
         editText.text = String.format(
             "%02d:%02d",
-            ((diffSeconds / 60) % 60).toInt(),
-            (diffSeconds % 60).toInt(),
+            ((secondsTillInterval / 60) % 60).toInt(),
+            (secondsTillInterval % 60).toInt(),
         )
 
-        if (diffSeconds > ReminderIntervalSeconds) {
+        if (diff > ReminderIntervalSeconds * 1000) {
             LastDrinkTime = (value - 1).toInt()
             mDisplayToast(
                 Toast.makeText(context, "Don't forget to drink!", Toast.LENGTH_LONG),
