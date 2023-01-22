@@ -13,10 +13,11 @@
         android:layout_height="wrap_content"
         android:text="@string/TimeToDrink"
         android:textColor="@color/white"
-        android:textSize="28sp"
+        android:textSize="@dimen/NormalTextSize"
         android:visibility="visible"
         android:gravity="center"
         android:textAlignment="center"
+        android:layout_alignParentEnd="true"
         tools:visibility="visible" />
 
 </RelativeLayout>

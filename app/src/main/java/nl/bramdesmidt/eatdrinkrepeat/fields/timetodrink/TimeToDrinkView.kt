@@ -50,7 +50,7 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
     }
 
     override fun onInvalid(view: View) {
-        if (LastDrinkTime === 1) {
+        if (LastDrinkTime == 1) {
             view.findViewById<TextView>(R.id.text).text = "Gaat wat mis ofzo"
         }
     }
