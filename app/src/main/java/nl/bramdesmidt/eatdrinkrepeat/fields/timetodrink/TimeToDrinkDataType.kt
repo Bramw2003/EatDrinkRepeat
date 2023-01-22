@@ -18,6 +18,6 @@ class TimeToDrinkDataType(context: SdkContext) : SdkDataType(context) {
     override val dependencies = listOf(Dependency.RIDE_TIME)
 
     override fun newView(): SdkView = TimeToDrinkView(context)
-    override fun newFormatter(): SdkFormatter = TimeToDrinkFormatter()
+    override fun newFormatter(): SdkFormatter = BuiltInFormatter.Numeric(0)
     override fun newTransformer(): SdkTransformer = BuiltInTransformer.Identity(context)
 }
