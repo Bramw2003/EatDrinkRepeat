@@ -26,7 +26,7 @@ class TimeToDrinkView(context: Context) : SdkView(context) {
     private fun onLayoutLongClick(): Boolean {
         // Ugly fix but will reset the timer on the next call to "onUpdate"
         // Requires a little less calculation then using the view and such
-        LastDrinkTime += ReminderIntervalSeconds * 1000
+        LastDrinkTime -= ReminderIntervalSeconds * 1000
         return true
     }
 
